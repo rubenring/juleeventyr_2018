@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { apiCallPost } from '../utils';
 import queryString from 'query-string';
 import {CheckUsername} from '../commen/CheckUsername';
-import Flagg from '../Flag_of_Norway.svg';
+import Poster from '../content/movie_poster.jpg';
 export class InfoPage extends Component{
   constructor(props){
     super(props);
@@ -32,18 +32,26 @@ export class InfoPage extends Component{
       <CheckUsername
         hasUsername={this.state.hasUsername}
       >
-        
         <section className='info-page'>
-            <img src={Flagg} style={{width: '50%'}} alt='norsk flag'/>
-            <h2>Velkommen til reisen gjennom Norge.</h2>
-            <p>For å komme dere gjennom må dere løse oppgavene som møter dere på veien.</p>
-            {this.state.hasUsername ? <Link 
-              to={`/page-one?username=${this.username}`} 
-            >
-              Klikk her for å gå videre
-            </Link>
-            : null
-            }
+            <div className='content'>
+              <img src={Poster} style={{width: '30%'}} alt='movie poster'/>
+              <div>
+                  {this.state.hasUsername ? <Link 
+                      className='link'
+                      to={`/page-one?username=${this.username}`} 
+                    >
+                      Klikk her for å starte
+                    </Link>
+                    : null
+                  }
+                  <p className='tekst'>
+                    Du er inne i skyskraperen sammen med flere terrorister.
+                    Du må hindre bomben i å eksplodere for å komme redde gisslene.
+                  </p>
+              </div>
+            </div>
+
+
         </section>
       </CheckUsername>
 

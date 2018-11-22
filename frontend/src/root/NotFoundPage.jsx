@@ -4,7 +4,7 @@ import './notFoundPage.css';
 export const NotFoundPage = (props) => {
   return (
     <section className='not-found-page'>
-        NOT FOUND
+        Fant ikke siden du lette etter.
     </section>
   );
 };
