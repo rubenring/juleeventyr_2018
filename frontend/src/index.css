@@ -1,5 +1,20 @@
+html {
+  font-size: 14px;
+}
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-color: black;
+}
+html, body
+{
+    height: 100%;
+}
+.root {
+  height: 100%;
+}
+.checker {
+  height: 100%;
+  width: 100%;
 }

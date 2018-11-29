@@ -14,8 +14,6 @@ import { Header } from '../commen/Header';
 export const AppRouter = (props) => {
   return (
     <Router>
-      <Fragment>
-      <Header username={props.username} logo={props.logo} {...props}/>      
       <Switch>
         <Route exact path='/' {...props} component={InfoPage}/>
         <Route path='/page-one' {...props} component={PageOne}/>
@@ -26,7 +24,6 @@ export const AppRouter = (props) => {
 
         <Route {...props} component={NotFoundPage} />
       </Switch>
-      </Fragment>
     </Router>
   )
 };

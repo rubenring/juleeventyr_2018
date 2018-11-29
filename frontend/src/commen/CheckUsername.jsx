@@ -4,9 +4,12 @@ export class CheckUsername extends Component {
   render(){
     return (
       <section className='checker'>
-          {
+          {/* {
             this.props.hasUsername === true ? this.props.children : <div>Dere mangler brukernavn</div>
-          }
+          } */
+          this.props.children  
+        }
+
       </section>
     );
   }

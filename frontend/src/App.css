@@ -1,5 +1,7 @@
+
 .App {
   text-align: center;
+  height: 100%;
 }
 
 .App-logo {
@@ -9,11 +11,13 @@
 
 .App-header {
   background-color: #d42426;
-  padding: 40px;
   color: white;
+  height: 10%;
 }
 
 .App-title {
+  margin: 0;
+  padding: 1em 0;
   font-size: 1.5em;
 }
 
