@@ -7,21 +7,31 @@ import { PageTwo } from "../page-two/PageTwo";
 import { PageThree } from "../page-three/PageThree";
 import { PageFour } from "../page-four/PageFour";
 import { PageFive } from "../page-five/PageFive";
-import { Header } from '../commen/Header';
+import { Header } from '../header/Header';
+import { storyline } from '../Util/storyline'
+import queryString from 'query-string'
 
+const RouteWithHeader = ({ storyline, location, ...rest}) => {
 
+  const { username } = queryString.parse(location.search);
+    return (
+      <Fragment>
+        <Header storyline={storyline} username={username} />
+        <Route {...rest} location={location}/>
+      </Fragment>
+    )
+}
 
 export const AppRouter = (props) => {
   return (
     <Router>
       <Switch>
         <Route exact path='/' {...props} component={InfoPage}/>
-        <Route path='/page-one' {...props} component={PageOne}/>
-        <Route path='/page-two' {...props} component={PageTwo}/>
-        <Route path='/page-three' {...props} component={PageThree}/>
-        <Route path='/page-four' {...props} component={PageFour}/>
-        <Route path='/page-five' {...props} component={PageFive}/>
-
+        <RouteWithHeader path='/page-one' {...props} component={PageOne} storyline={storyline[1]} />
+        <RouteWithHeader path='/page-two' {...props} component={PageTwo} storyline={storyline[2]}/>
+        <RouteWithHeader path='/page-three' {...props} component={PageThree} storyline={storyline[3]} />
+        <RouteWithHeader path='/page-four' {...props} component={PageFour} storyline={storyline[4]} />
+        <RouteWithHeader path='/page-five' {...props} component={PageFive} storyline={storyline[5]}/>
         <Route {...props} component={NotFoundPage} />
       </Switch>
     </Router>

@@ -1,0 +1,55 @@
+.App-header {
+  background-color: transparent;
+  display: inline-block;
+}
+.header-room-list {
+  overflow: hidden;
+  list-style: none;
+  position: absolute;
+  left: 10px;
+  top: 30%;
+  border: 3px solid #ff3333;
+  background-color: rgba(30, 30, 30, 0.9);
+
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  margin: 0;
+  padding: 0;
+}
+
+.header-room-list-element {
+  list-style: none;
+
+}
+.roomLink {
+  display: block;
+  margin: 0.5em;
+  padding: 0.5em;
+  font-size: 22px;
+  text-decoration: none;
+  color: white;
+  text-transform: uppercase;
+  line-height: 2em;
+  border-bottom: 1px solid transparent;
+}
+.roomLink:hover {
+  color: #c3c3c3;
+  border-bottom: 1px solid #c3c3c3;
+}
+
+.header-storyline {
+  position: absolute;
+  left: 28%;
+  bottom: 5%;
+  width: 40%;
+  background-color: rgba(40, 40, 40, 0.9);
+  padding: 2em;
+  border-radius: 5px;
+}
+.header-storyline-text {
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-size: 20px;
+  line-height: 2em;
+}

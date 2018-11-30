@@ -40,10 +40,10 @@ export class PageOne extends Component {
       >
         <section className='page-one'>
             <div className='answer-input-container'>
-                <input className='answer-input' type="text"/>
-                <input className='answer-input' type="text"/>
-                <input className='answer-input' type="text"/>
-                <input className='answer-input' type="text"/>
+                <input className='answer-input' disabled type="text"/>
+                <input className='answer-input' disabled type="text"/>
+                <input className='answer-input' disabled type="text"/>
+                <input className='answer-input' disabled type="text"/>
             </div>
         </section>
       </CheckUsername>
