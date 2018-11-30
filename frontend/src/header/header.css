@@ -2,17 +2,20 @@
   background-color: transparent;
   display: inline-block;
 }
-.header-room-list {
-  overflow: hidden;
-  list-style: none;
+
+.room-link-container {
   position: absolute;
   left: 10px;
   top: 30%;
+}
+.header-room-list {
+  overflow: hidden;
+  list-style: none;
   border: 3px solid #ff3333;
   background-color: rgba(30, 30, 30, 0.9);
 
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
   margin: 0;
   padding: 0;
 }
@@ -20,6 +23,20 @@
 .header-room-list-element {
   list-style: none;
 
+}
+.link-toggler {
+  padding: 1em;
+  background-color: #ff3333;
+  text-align: center;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  color: white;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.link-toggler:hover{
+  cursor: pointer;
 }
 .roomLink {
   display: block;
