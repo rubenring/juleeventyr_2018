@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import { CheckUsername } from '../commen/CheckUsername';
-import { InputAndButton } from '../commen/InputAndButton';
-import { NesteOppgaveLenke } from '../commen/NesteOppgaveLenke';
+import './pageThree.css';
 import queryString from 'query-string'
-import { apiCallPost, apiCallGet } from '../utils';
 
 export class PageThree extends Component {
   constructor(props){
@@ -12,88 +9,96 @@ export class PageThree extends Component {
     const { username } = queryString.parse(props.location.search);
     this.username = username;
     this.state = {
-      value: '',
+      inputWord: '',
       reg: '',
-      level: 10,
-      isCompleted: null,
       hasUsername: false,
-      toLowLevel: false
+      amount: 8
     }
-    this.lagreSvar = this.lagreSvar.bind(this);
-    this.onChange = this.onChange.bind(this);
+    this.svar = this.svar.bind(this);
+    this.cipher = this.cipher.bind(this);
+    this.endreTekst = this.endreTekst.bind(this);
+    // this.lagreSvar = this.lagreSvar.bind(this);
 
   }
-  componentDidMount(){
-    if(this.username){
-      const url = `/api/${this.username}/progress`;
-      apiCallGet(url)
-        .then(res => {
-          this.setState({
-            level: res.level,
-            hasUsername: res.hasUsername
-          })
-        })
-    }
+  // componentDidMount(){
+  //   if(this.username){
+  //     const url = `/api/${this.username}/progress`;
+  //     apiCallGet(url)
+  //       .then(res => {
+  //         this.setState({
+  //           level: res.level,
+  //           hasUsername: res.hasUsername
+  //         })
+  //       })
+  //   }
+  // }
+
+  // lagreSvar(){
+  //   const svar = {
+  //     svar: this.state.value
+  //   };
+  //   if(svar.svar){
+  //     const url = `/api/${this.username}/answerthree`;
+  //     apiCallPost(url, svar)
+  //       .then(res => {
+  //         this.setState({
+  //           isCompleted: res.answer,
+  //           toLowLevel: res.toLowLevel
+  //         })
+  //       })
+  //   }
+  // }
+
+  svar(){
+
   }
-  onChange(value){
+  endreTekst (e) {
     this.setState({
-      value
+      ...this.state,
+      inputWord: e.target.value
     })
-  }
-  lagreSvar(){
-    const svar = {
-      svar: this.state.value
-    };
-    if(svar.svar){
-      const url = `/api/${this.username}/answerthree`;
-      apiCallPost(url, svar)
-        .then(res => {
-          this.setState({
-            isCompleted: res.answer,
-            toLowLevel: res.toLowLevel
-          })
-        })
-    }
+  };
+
+  cipher(verdi, amount) {
+      let output = '';
+      const input = verdi.toLowerCase();
+      for (let i = 0; i < verdi.length; i++) {
+        let c = input[i];
+        if (c.match(/[a-z]/i)) {
+          const code = input.charCodeAt(i);
+          if ((code >= 97) && (code <= 122)){
+            c = String.fromCharCode(((code - 97 + (input.length-1) * (i+1)) % 26) + 97);
+          }
+        }
+        output += c;
+      }
+      return output;
   }
 
-  isTrue(){
-    const patt = /(?=.*N)(?=.*O)/i;
-    return this.state.reg.match(patt)
-  }
   render(){
+    
+    const answer = '';
     return (
       <CheckUsername
         hasUsername={this.state.hasUsername}
       >
-      {
-        this.state.level < 2 ? <Redirect to={`/?username=${this.username}`}/> : null 
-      }
-      <section className='page-Three'>
-          <div className='info'>
-            <p>Etter flere runder i manesjen på Solsiden er dere klare for å dra videre.</p>
-            <p>Flertallet stemmer for å ta hurtigruta til Bodø.</p>
-            <p>Dette har dere ikke penger til (selvfølgelig). Nå er gode råd dyre.</p>
-            <p>Kapteinen på en lokal fiskebåt skal også oppover i kveld, og får nyss om gruppen deres</p>
-            <p>Han sier dere kan få sitte på, men kun hvis dere løser denne oppgaven han har jobbet med en stund</p>
+        <section className='page-Three'>
+          <div className='cipher-konteiner'>
+          <p className='input-word'><a href="">{this.cipher('tjuefem', this.state.amount)}</a></p>
+          <div className='cipher-input-konteiner'>
+            <input className='cipher-input' type="text" onChange={this.endreTekst}/>
           </div>
-          <label htmlFor="">
-            Hva kreves her? <br/>
-            <input onChange={(e) => this.setState({reg: e.target.value})} value={this.state.reg} />
-            <br />
-            <span >Er dere inne på noe? <b>{this.state.reg.length>0 ? this.isTrue() ? 'Jepp' : 'Nope' : null} </b></span>
-          </label>
+            <p className='input-word'><a href="">{this.cipher(this.state.inputWord, this.state.amount)}</a></p>
+            <p>{answer}</p>
+            <button
+              className='answer-button'
+              onClick={this.svar}
+            >
+              Send svar
+            </button>
+          </div>
 
-          <InputAndButton 
-            id={'page-three-answer'} 
-            label='Fyll inn svaret deres her' 
-            onChange={this.onChange}
-            value={this.state.value}
-            onClick={this.lagreSvar}
-          />
-
-        <NesteOppgaveLenke lenke={`/page-four?username=${this.username}`} showLink={this.state.isCompleted} title='Du kan nå gå videre' />
-
-      </section>
+        </section>
       </CheckUsername>
     );
   }
