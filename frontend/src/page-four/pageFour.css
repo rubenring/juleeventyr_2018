@@ -1,3 +1,31 @@
 .page-Four {
     hash: none;
+
+}
+.four-container-img {
+    width: 0%;
+}
+.four-container-img img{
+    width: 100%;
+}
+.dark-room-input {
+    text-align: center;
+    font-size: 42px;
+    color: white;
+    background-color: black;
+    border: black;
+}
+.input-and-button {
+    display: inline-block;
+    margin-top: 5em;
+    text-align: center;
+}
+.black {
+    color: black;
+    border: black;
+}
+.black:hover{
+    color: black;
+    border: black;
+    background-color: black;
 }

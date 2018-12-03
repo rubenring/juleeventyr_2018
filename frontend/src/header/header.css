@@ -6,7 +6,7 @@
 .room-link-container {
   position: absolute;
   left: 10px;
-  top: 30%;
+  bottom: 0;
 }
 .room-link-stylediv {
   display:flex;

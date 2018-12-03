@@ -5,7 +5,7 @@ export class Navigasjon extends Component {
   constructor(props){
     super(props);
     this.state = {
-      showLinks: true
+      showLinks: false
     }
     this.toggleLinks = this.toggleLinks.bind(this);
   }
@@ -20,10 +20,10 @@ export class Navigasjon extends Component {
       <div className='room-link-container'>
         <div className='room-link-stylediv'>
           {this.state.showLinks ? <ul className='header-room-list'>
-            <NavigasjonLenke tekst='Gå til rom 1' link={`/page-one?username=${username}`} />
-            <NavigasjonLenke tekst='Gå til rom 2' link={`/page-two?username=${username}`} />
-            <NavigasjonLenke tekst='Gå til rom 3' link={`/page-three?username=${username}`} />
-            <NavigasjonLenke tekst='Gå til rom 4' link={`/page-four?username=${username}`} />
+            <NavigasjonLenke tekst='Hvelv' link={`/page-one?username=${username}`} />
+            <NavigasjonLenke tekst='Bøttekott' link={`/page-two?username=${username}`} />
+            <NavigasjonLenke tekst='Vaktbu' link={`/page-three?username=${username}`} />
+            <NavigasjonLenke tekst='kjeller' link={`/page-four?username=${username}`} />
             <NavigasjonLenke tekst='Gå til rom 5' link={`/page-five?username=${username}`} />
           </ul>: null}
           <div className='link-toggler' onClick={this.toggleLinks}>

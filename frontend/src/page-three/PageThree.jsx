@@ -84,18 +84,20 @@ export class PageThree extends Component {
       >
         <section className='page-Three'>
           <div className='cipher-konteiner'>
-          <p className='input-word'><a href="">{this.cipher('tjuefem', this.state.amount)}</a></p>
+          <p className='input-word'><a href="">{this.cipher('tjue-fem', this.state.amount)}</a></p>
           <div className='cipher-input-konteiner'>
             <input className='cipher-input' type="text" onChange={this.endreTekst}/>
           </div>
             <p className='input-word'><a href="">{this.cipher(this.state.inputWord, this.state.amount)}</a></p>
             <p>{answer}</p>
-            <button
-              className='answer-button'
-              onClick={this.svar}
-            >
-              Send svar
-            </button>
+            <div className='three-btn-container'>
+              <button
+                className='answer-three-button'
+                onClick={this.svar}
+              >
+                Prøv lykken
+              </button>
+            </div>
           </div>
 
         </section>
