@@ -17,8 +17,10 @@
 }
 .input-and-button {
     display: inline-block;
+    visibility: hidden;
     margin-top: 5em;
     text-align: center;
+    
 }
 .black {
     color: black;
