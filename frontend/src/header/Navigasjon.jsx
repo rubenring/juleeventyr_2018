@@ -23,8 +23,8 @@ export class Navigasjon extends Component {
             <NavigasjonLenke tekst='Hvelv' link={`/page-one?username=${username}`} />
             <NavigasjonLenke tekst='Bøttekott' link={`/page-two?username=${username}`} />
             <NavigasjonLenke tekst='Vaktbu' link={`/page-three?username=${username}`} />
-            <NavigasjonLenke tekst='kjeller' link={`/page-four?username=${username}`} />
-            <NavigasjonLenke tekst='Gå til rom 5' link={`/page-five?username=${username}`} />
+            <NavigasjonLenke tekst='Kjeller' link={`/page-four?username=${username}`} />
+            <NavigasjonLenke tekst='Toalett' link={`/page-five?username=${username}`} />
           </ul>: null}
           <div className='link-toggler' onClick={this.toggleLinks}>
             {this.state.showLinks ? <p>Lukk</p> : <p>Vis</p> }
