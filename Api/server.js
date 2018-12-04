@@ -2,19 +2,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const monk = require('monk');
 const cors = require('cors');
+const hentSvar = require('./Utils/Answers.js')
 const app = express();
 const port = process.env.PORT || 5000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-const db = monk("mongodb://reuben:sommer2018@ds016138.mlab.com:16138/sommereventyr_2018_reuben");
+const db = monk("mongodb://user:user98@ds123584.mlab.com:23584/juleeventyr_2018");
 
 const totalAnswer = '';
-//collection: sommereventyr_2018_reuben
-//db: sommereventyr_2018_reuben
-//dbpass: sommer2018
-const users = db.get('User');
+const users = db.get('Users');
 const respSuccessModel = (level, totalAnswer, username, answer, toLowLevel = false) => ({
   level,
   totalAnswer,
@@ -23,48 +21,48 @@ const respSuccessModel = (level, totalAnswer, username, answer, toLowLevel = fal
   toLowLevel
 });
 
+const HentSvar = (rom) => {
+    return 42;
+}
+
 const findUser = (username) => {
   if(username && typeof username !== undefined && username !== "undefined"){
     return users.findOne({username}).then((doc) => {
+      console.log(doc);
       if(doc !== null){
         return doc;
-      }else{
-        return {};
       }
     })
-  }else{
-    return {};
   }
- 
-}
-const findOneAndUpdateLevel = (username, level) => {
-  return users.update({ username }, { $set: { level } })
-}
-app.get('/api/:username/progress', (req, res) => {
-  const username = req.params.username; 
-  if(typeof username === undefined || !username){
-    res.send({"hasUsername": false, username: ''});
-    return;
-  }
-  findUser(username)
-    .then(user => {
-      res.send({"hasUsername": user.username ? true : false, username: user.username, level: user.level});
-    });
-    
-});
-app.get('/api/:username/level', (req, res) => {
-  const username = req.params.username; 
-  if(typeof username === undefined || !username){
-    res.send({"hasUsername": false, username: ''});
-    return;
-  }
-  findUser(username)
-    .then(user => {
-      res.send({level: user.level});
-    });
-});
 
-app.post('/api/:username/addusernametodb', (req, res, next) => {
+  return {};
+}
+
+const UpdateProgress = (user, room) => {
+  var progress = user.progress;
+  switch(room){
+    case 1:
+      progress.room1 = true;
+      break;
+    case 2:
+      progress.room2 = true;
+      break;
+    case 3:
+      progress.room3 = true;
+      break;
+    case 4:
+      progress.room4 = true;
+      break;
+  }
+
+  return users.update({ username: user.username }, { $set: {progress} });
+}
+
+const CreateErrorMessage = () => {
+  return {"message": "Invalid username"};
+}
+
+app.post('/api/users', (req, res, next) => {
   const username = req.params.username;
   if(typeof username === undefined || !username){
     res.send({"hasUsername": false, username: ''});
@@ -80,66 +78,7 @@ app.post('/api/:username/addusernametodb', (req, res, next) => {
     });
 });
 
-app.post('/api/:username/answerone', (req, res, next) => {
-  /* Må sjekke om brukernavn er satt. hvis ikke returner  */
-  const username = req.params.username; 
-  if(typeof username === undefined || !username){
-    res.send({"hasUsername": false, username: ''});
-    return;
-  }
-  const body = req.body;
-  if(body.svar && body.svar.toLowerCase() === "dr" || body.svar.toLowerCase() === "rd"){
-    findOneAndUpdateLevel(username, 2).then(x => {
-      res.send(respSuccessModel(2, 'rd', username, true, false));
-      return;
-    });
-  }else {
-    res.send({
-      'username':username,
-      'answer': false
-    });
-  }
-
-});
-
-
-
-app.post('/api/:username/answertwo', (req, res) => {
-  const username = req.params.username; 
-  if(typeof username === undefined || !username){
-    res.send({"hasUsername": false, username: ''});
-    return;
-  }
-  const body = req.body;
-
-  findUser(username)
-    .then(user => {
-      if(user.level < 1){
-        res.send({
-          'username': username,
-          'answer': false,
-          'toLowLevel': true
-        });
-      }
-    });
-  
-  //sjekke om svar 1 er svart på først
-  if(body.svar && body.svar.toLowerCase() === "pa" || body.svar.toLowerCase() === "ap"){
-    //oppdater db level for username
-    findOneAndUpdateLevel(username, 2).then(x => {
-      res.send(respSuccessModel(2, 'pa', username, true, false));
-      return;
-    });
-    return;
-  }
-  res.send({
-    'username': username,
-    'answer': false
-  });
-});
-
-app.post('/api/:username/answerthree', (req, res) => {
-  /* Må sjekke om brukernavn er satt. hvis ikke returner  */
+app.get('/api/users/:username/progress', (req, res) => {
   const username = req.params.username; 
   if(typeof username === undefined || !username){
     res.send({"hasUsername": false, username: ''});
@@ -147,92 +86,43 @@ app.post('/api/:username/answerthree', (req, res) => {
   }
   findUser(username)
     .then(user => {
-      if(user.level < 2){
-        res.send({
-          'username': username,
-          'answer': false,
-          'toLowLevel': true
-        });
-      }
+        res.send(!user ? CreateErrorMessage() : user.progress);
+        return;
     });
-  const body = req.body;
-  if(body.svar && body.svar.toLowerCase() === "no" || body.svar.toLowerCase() === "no"){
-    findOneAndUpdateLevel(username, 3).then(x => {
-      res.send(respSuccessModel(3, 'no', username, true, false));
-      return;
-    });
-    return;
-  }
-  res.send({
-    'username': req.params.username,
-    'answer': false
-  });
 });
 
-app.post('/api/:username/answerfour', (req, res) => {
-  const username = req.params.username; 
+app.post('/api/users/:username/answers', (req, res, next) => {
+  const username = req.params.username;
   if(typeof username === undefined || !username){
     res.send({"hasUsername": false, username: ''});
     return;
   }
-  findUser(username)
-    .then(user => {
-      if(user.level < 3){
-        res.send({
-          'username': username,
-          'answer': false,
-          'toLowLevel': true
-        });
-      }
-    });
   const body = req.body;
-  if(body.svar && body.svar.toLowerCase() === "kp" || body.svar.toLowerCase() === "pk"){
-    findOneAndUpdateLevel(username, 4).then(x => {
-      res.send({
-        ...respSuccessModel(4, 'kp', username, true, false),
-        anagram: 'ropnkdap'
-      });
+  console.log(body.answer)
+  if (body.answer == 42){
+    console.log('er INNE!')
+    findUser(username)
+      .then(user => {
+        console.log(user);
+        console.log('inne i FIND USER');
+        if (!user){
+          throw new Error('Invalid username');
+        }
+
+        UpdateProgress(user, body.room)
+        .then(() => {
+          console.log('Have updated')
+          res.send({"message": "Progress updated"})
+          return;
+        });
+    }).catch((x) => {
+      res.send(CreateErrorMessage());
       return;
     });
+  } else{
+    res.send({"message": "Answer not correct"});
     return;
   }
-  res.send({
-    'username': username,
-    'answer': false
-  });
-});
-
-app.post('/api/:username/answerlast', (req, res) => {
-  /* Må sjekke om brukernavn er satt. hvis ikke returner  */
-  const username = req.params.username; 
-  if(typeof username === undefined || !username){
-    res.send({"hasUsername": false, username: ''});
-    return;
-  }
-  findUser(username)
-    .then(user => {
-      if(user.level < 4){
-        res.send({
-          'username': username,
-          'answer': false,
-          'toLowLevel': true
-        });
-      }
-    });
-  const body = req.body;
-  if(body.svar && body.svar.toLowerCase() === "nordkapp"){
-    findOneAndUpdateLevel(username, 4).then(x => {
-      res.send({
-        long: '59.913258',
-        lat: '10.748654'
-      });
-    });
-    return;
-  }
-  res.send({
-    'username': username,
-    'answer': false
-  });
 });
 
 app.use((err, req, res, next) => {
@@ -244,5 +134,4 @@ app.listen(port, () => {
     console.log('Connected correctly to mongo db')
   })
   console.log(`Listening on port ${port}`)
-
 });
