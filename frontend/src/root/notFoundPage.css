@@ -1,3 +1,17 @@
 .not-found-page {
-    
+    color: white;
+    text-align: center;
+}
+.not-found-img {
+  font-size: 40px;
+  padding: 4em;
+  width: 60%;
+  margin: 0 auto;
+}
+.not-found-img img {
+  width: 100%;
+}
+.go-back-link {
+  font-size: 32px;
+  color: white;
 }

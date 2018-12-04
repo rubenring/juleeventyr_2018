@@ -1,11 +1,35 @@
 .content {
-  display: flex;
-  align-items: center;
+
   padding: 0 2em;
+  color: white;
 }
-.tekst {
-  font-size: 16px;
+.info-img-container {
+  width: 40%;
+  margin: 0 auto;
+  position: relative;
+} 
+.info-img-container img{
+  width: 100%;
 }
-.link {
-  font-size: 22px;
+.infopage-link {
+  font-size: 40px;
+  position: absolute;
+  background-color: white;
+  left:30%;
+  top: 30%;
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+  padding: 1em 2em;
+  border-radius: 20%;
+  border: 5px solid black;
+}
+.infopage-link:hover {
+  border: 5px solid white;
+  background-color: black;
+  color: white;
+}
+.no-user-tekst {
+  font-size: 32px;
+  color: white;
 }

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import totalBlack from '../content/totalblack.png';
 import './pageFour.css';
 import { CheckUsername } from '../commen/CheckUsername';
-import { InputAndButton } from '../commen/InputAndButton';
-import { NesteOppgaveLenke } from '../commen/NesteOppgaveLenke';
 import queryString from 'query-string'
 import { apiCallPost, apiCallGet } from '../utils';
 
@@ -14,48 +12,43 @@ export class PageFour extends Component {
     this.username = username;
     this.state = {
       value: '',
-      reg: '',
-      level: 10,
-      isCompleted: null,
+      fetchingUser: false,
       hasUsername: false,
-      toLowLevel: false
     }
-    this.lagreSvar = this.lagreSvar.bind(this);
-    this.onChange = this.onChange.bind(this);
+    this.sendSvar = this.sendSvar.bind(this);
 
   }
   componentDidMount(){
     if(this.username){
-      const url = `/api/${this.username}/progress`;
+      this.setState({
+        ...this.state,
+        fetchingUser: true
+      })
+      const url = `/api/${this.username}/addusernametodb`;
+      apiCallPost(url, {username: this.username})
+      .then(res => {
+        this.setState({
+          hasUsername: res.hasUsername,
+          username: res.username,
+          fetchingUser: false
+        })
+      })
+    }
+  }
 
-      apiCallGet(url)
-        .then(res => {
-          this.setState({
-            level: res.level,
-            hasUsername: res.hasUsername,
-            username: res.username
-          })
-        })
-    }
-  }
-  onChange(value){
-    this.setState({
-      value
-    })
-  }
-  lagreSvar(){
-    const svar = {
-      svar: this.state.value
-    };
-    if(svar.svar){
-      const url = `/api/${this.username}/answerfour`;
-      apiCallPost(url, svar)
-        .then(res => {
-          this.setState({
-            isCompleted: res.answer
-          })
-        })
-    }
+  sendSvar(){
+    // const svar = {
+    //   svar: this.state.value
+    // };
+    // if(svar.svar){
+    //   const url = `/api/${this.username}/answerfour`;
+    //   apiCallPost(url, svar)
+    //     .then(res => {
+    //       this.setState({
+    //         isCompleted: res.answer
+    //       })
+    //     })
+    // }
   }
 
   render(){
@@ -63,31 +56,26 @@ export class PageFour extends Component {
       <CheckUsername
         hasUsername={this.state.hasUsername}
       >
-      {
-        this.state.level < 3 ? <Redirect to={`/?username=${this.username}`}/> : null 
-      }
       <section className='page-Four'>
-          <div className='info'>
-            <p>Bodø var en eneste stor skuffelse.</p>
-            <p>Dere skulle ønske dere heller dro til nordens paris!</p>
-            <p>Dette rekker dere desverre ikke, for nå er dere snart kommet til kveldens siste oppgave. <span style={{color: 'white'}}>md5</span></p>
-            <p>Flere av dere er nå lei og vil bare ut å drikke pils. Dette skjønner reiseleder godt</p>
-            <p>, men bryr seg ikke nevneverdig. Her er neste oppgave</p>
-          </div>
-          <div>
-            <h3>Finn de siste bokstavene</h3>
-            <code>da2be3f8b1640de6534fea0e9744cccb</code>
-          </div>
-          <InputAndButton 
-            id={'page-four-answer'} 
-            label='Fyll inn svaret deres her' 
-            onChange={this.onChange}
-            value={this.state.value}
-            onClick={this.lagreSvar}
-          />
-        {this.state.isCompleted === true ? <span>Godt jobbet! Gå videre til siste oppgave</span> : null }
-        <NesteOppgaveLenke lenke={`/page-five?username=${this.username}`} showLink={this.state.isCompleted} title='Gå til siste oppgave' />
-
+        <div className='four-container-img'>
+            <img src={totalBlack} alt='hidden' />
+        </div>
+        <div className='input-and-button'>
+            <input 
+              className='dark-room-input'
+              type="text" 
+              value={this.state.value}
+              onChange={(e) => this.setState({value: e.target.value})}  
+            />
+            <div className='three-btn-container'>
+              <button
+                className='answer-three-button black'
+                onClick={this.sendSvar}
+              >
+                Prøv lykken
+              </button>
+            </div>
+        </div>
       </section>
       </CheckUsername>
     );

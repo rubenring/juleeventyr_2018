@@ -6,7 +6,11 @@
 .room-link-container {
   position: absolute;
   left: 10px;
-  top: 30%;
+  bottom: 0;
+}
+.room-link-stylediv {
+  display:flex;
+
 }
 .header-room-list {
   overflow: hidden;
@@ -14,7 +18,7 @@
   border: 3px solid #ff3333;
   background-color: rgba(30, 30, 30, 0.9);
 
-  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
   border-top-left-radius: 5px;
   margin: 0;
   padding: 0;
@@ -28,13 +32,20 @@
   padding: 1em;
   background-color: #ff3333;
   text-align: center;
-  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+
+}
+
+.link-toggler>p {
   color: white;
   font-size: 20px;
   text-transform: uppercase;
   font-weight: bold;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 }
+
 .link-toggler:hover{
   cursor: pointer;
 }

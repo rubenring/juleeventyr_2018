@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import './pageFive.css';
 import { CheckUsername } from '../commen/CheckUsername';
-import { InputAndButton } from '../commen/InputAndButton';
+import SudokuBoard from './SudokuBoard';
+import initialBoardState from '../Util/initialBoardState';
+
 import queryString from 'query-string'
 import { apiCallPost, apiCallGet } from '../utils';
 
@@ -11,8 +13,10 @@ export class PageFive extends Component {
     super(props)
     const { username } = queryString.parse(props.location.search);
     this.username = username;
+    this.changeValue = this.changeValue.bind(this);
     this.state = {
       hasUsername: false,
+      sudokuBoard: initialBoardState
     }
     // this.lagreSvar = this.lagreSvar.bind(this);
 
@@ -46,7 +50,22 @@ export class PageFive extends Component {
   //   }
   // }
 
+  changeValue(e, input){
+    this.setState({
+      ...this.state,
+      sudokuBoard: this.state.sudokuBoard.map(x => {
+        if(x.id === input.id){
+          return {
+            ...x,
+            value: e.target.value
+          }
+        }
+        return x;
+      })
+    })
+  }
   render(){
+  
     return (
       <CheckUsername
         hasUsername={this.state.hasUsername}
@@ -55,8 +74,7 @@ export class PageFive extends Component {
         this.state.level < 4 ? <Redirect to={`/?username=${this.username}`}/> : null 
       } */}
       <section className='page-five'>
-
-
+        <SudokuBoard changeValue={this.changeValue} sudokuBoard={this.state.sudokuBoard} />
       </section>
       </CheckUsername>
     );

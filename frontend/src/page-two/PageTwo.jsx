@@ -44,6 +44,12 @@ export class PageTwo extends Component {
       },{
         id: 8,
         on: false
+      },{
+        id: 9,
+        on: false
+      },{
+        id: 10,
+        on: false
       }],
     }
   }
