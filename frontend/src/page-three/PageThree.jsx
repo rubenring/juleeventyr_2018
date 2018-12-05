@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { CheckUsername } from '../commen/CheckUsername';
 import './pageThree.css';
 import queryString from 'query-string'
+import { apiCallPost, apiCallGet } from '../utils';
 
 export class PageThree extends Component {
   constructor(props){
@@ -10,48 +11,50 @@ export class PageThree extends Component {
     this.username = username;
     this.state = {
       inputWord: '',
-      reg: '',
       hasUsername: false,
-      amount: 8
+      isCompleted: false
     }
-    this.svar = this.svar.bind(this);
     this.cipher = this.cipher.bind(this);
     this.endreTekst = this.endreTekst.bind(this);
-    // this.lagreSvar = this.lagreSvar.bind(this);
+    this.lagreSvar = this.lagreSvar.bind(this);
 
   }
-  // componentDidMount(){
-  //   if(this.username){
-  //     const url = `/api/${this.username}/progress`;
-  //     apiCallGet(url)
-  //       .then(res => {
-  //         this.setState({
-  //           level: res.level,
-  //           hasUsername: res.hasUsername
-  //         })
-  //       })
-  //   }
-  // }
-
-  // lagreSvar(){
-  //   const svar = {
-  //     svar: this.state.value
-  //   };
-  //   if(svar.svar){
-  //     const url = `/api/${this.username}/answerthree`;
-  //     apiCallPost(url, svar)
-  //       .then(res => {
-  //         this.setState({
-  //           isCompleted: res.answer,
-  //           toLowLevel: res.toLowLevel
-  //         })
-  //       })
-  //   }
-  // }
-
-  svar(){
-
+  componentDidMount(){
+    if(this.username){
+      this.setState({
+        ...this.state,
+        fetchingUser: true
+      })
+      const url = `/api/users/${this.username}`;
+      apiCallPost(url)
+      .then(res => {
+        this.setState({
+          hasUsername: res.hasUsername,
+          username: res.username,
+          fetchingUser: false
+        })
+      })
+    }
   }
+
+  lagreSvar(){
+    if(this.state.inputWord){
+      const url = `/api/users/${this.username}/answers`;
+      const reqModel = {
+        room: 2,
+        answer: this.state.inputWord
+      }
+      apiCallPost(url, reqModel)
+        .then(res => {
+          if(res && res.success){
+            this.setState({
+              isCompleted: true,
+            })
+          }
+        })
+    }
+  }
+
   endreTekst (e) {
     this.setState({
       ...this.state,
@@ -83,6 +86,7 @@ export class PageThree extends Component {
         hasUsername={this.state.hasUsername}
       >
         <section className='page-Three'>
+          {this.state.isCompleted ? <p>HURRA</p>: null}
           <div className='cipher-konteiner'>
           <p className='input-word'><a href="">{this.cipher('tjue-fem', this.state.amount)}</a></p>
           <div className='cipher-input-konteiner'>
@@ -93,7 +97,7 @@ export class PageThree extends Component {
             <div className='three-btn-container'>
               <button
                 className='answer-three-button'
-                onClick={this.svar}
+                onClick={this.lagreSvar}
               >
                 Prøv lykken
               </button>

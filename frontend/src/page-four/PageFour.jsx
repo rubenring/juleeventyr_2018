@@ -24,8 +24,8 @@ export class PageFour extends Component {
         ...this.state,
         fetchingUser: true
       })
-      const url = `/api/${this.username}/addusernametodb`;
-      apiCallPost(url, {username: this.username})
+      const url = `/api/users/${this.username}`;
+      apiCallPost(url)
       .then(res => {
         this.setState({
           hasUsername: res.hasUsername,
@@ -56,7 +56,7 @@ export class PageFour extends Component {
       <CheckUsername
         hasUsername={this.state.hasUsername}
       >
-      <section className='page-Four'>
+      {!this.state.fetchingUser ? <section className='page-Four'>
         <div className='four-container-img'>
             <img src={totalBlack} alt='hidden' />
         </div>
@@ -76,7 +76,7 @@ export class PageFour extends Component {
               </button>
             </div>
         </div>
-      </section>
+      </section>: null}
       </CheckUsername>
     );
   }

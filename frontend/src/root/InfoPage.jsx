@@ -24,8 +24,8 @@ export class InfoPage extends Component{
         ...this.state,
         fetchingUser: true
       })
-      const url = `/api/${this.username}/addusernametodb`;
-      apiCallPost(url, {username: this.username})
+      const url = `/api/users/${this.username}`;
+      apiCallPost(url)
       .then(res => {
         this.setState({
           hasUsername: res.hasUsername,
@@ -54,7 +54,7 @@ export class InfoPage extends Component{
                     : null
                   }
             </div>
-              {!this.state.hasUsername && !this.state.fetchingUser ? <p className='no-user-tekst'>Dere trenger et brukernavn for å fortsette. Skriv inn burkernavnet dere is url slik: \?username=deresbrukernavn' </p>: null}
+              {!this.state.hasUsername && !this.state.fetchingUser ? <p className='no-user-tekst'>Dere trenger et brukernavn for å fortsette. Skriv inn burkernavnet dere i url slik: \?username=deresbrukernavn' </p>: null}
               <Storyline storyline={storyline} />
             </div>
 

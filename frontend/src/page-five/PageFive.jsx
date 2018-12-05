@@ -22,19 +22,24 @@ export class PageFive extends Component {
     // this.lagreSvar = this.lagreSvar.bind(this);
 
   }
-  // componentDidMount(){
-  //   if(this.username){
-  //     const url = `/api/${this.username}/progress`;
-  //     apiCallGet(url)
-  //       .then(res => {
-  //         this.setState({
-  //           level: res.level,
-  //           hasUsername: res.hasUsername,
-  //           username: res.username
-  //         })
-  //       })
-  //   }
-  // }
+  componentDidMount(){
+    if(this.username){
+      this.setState({
+        ...this.state,
+        fetchingUser: true
+      })
+      const url = `/api/users/${this.username}`;
+      apiCallPost(url)
+      .then(res => {
+        this.setState({
+          hasUsername: res.hasUsername,
+          username: res.username,
+          fetchingUser: false
+        })
+
+      })
+    }
+  }
   // lagreSvar(){
   //   const svar = {
   //     svar: this.state.value

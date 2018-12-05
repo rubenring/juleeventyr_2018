@@ -53,18 +53,23 @@ export class PageTwo extends Component {
       }],
     }
   }
-  // componentDidMount(){
-  //   if(this.username){
-  //     const url = `/api/${this.username}/progress`;
-  //     apiCallGet(url)
-  //       .then(res => {
-  //         this.setState({
-  //           level: res.level,
-  //           hasUsername: res.hasUsername
-  //         })
-  //       })
-  //   }
-  // }
+  componentDidMount(){
+    if(this.username){
+      this.setState({
+        ...this.state,
+        fetchingUser: true
+      })
+      const url = `/api/users/${this.username}`;
+      apiCallPost(url)
+      .then(res => {
+        this.setState({
+          hasUsername: res.hasUsername,
+          username: res.username,
+          fetchingUser: false
+        })
+      })
+    }
+  }
   changeLight(id) {
       const lightbulbs = this.state.lightbulbs.map(x => {
         if(x.id === id){

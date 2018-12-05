@@ -1,3 +1,4 @@
+import appConfig from './Util/config';
 export const parseJSON = (res) => {
     return res.json();
 }
@@ -21,7 +22,7 @@ export const GET = () => ({
     body: JSON.stringify(json)
   })
 export const apiCallPost = (url, json) => (
-  fetch(`https://boiling-depths-42373.herokuapp.com${url}`, {
+  fetch(`${appConfig.ApiUrl}${url}`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -36,7 +37,7 @@ export const apiCallPost = (url, json) => (
   .catch(err => console.log(err))
 );
 export const apiCallGet = (url) => (
-  fetch(`https://boiling-depths-42373.herokuapp.com${url}`, GET())
+  fetch(`${appConfig.ApiUrl}${url}`, GET())
   .then(checkstatus)
   .then(parseJSON)
   .then(json => json)
