@@ -1,5 +1,5 @@
 .page-five {
-  display: flex;
+  display: inline-block;
   justify-content: center;
   width: 100%;
   height: 100%;
@@ -8,16 +8,41 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+.page-five-content {
+  text-align: center;
+}
 .sudoku-board {
-  margin-top: 10em;
-  display: flex;
+  display: inline-flex;
 }
-.sudoku-board-row {
-
+.sudoku-board-row:nth-child(3){
+  border-right:3px solid white;
+  
 }
-.sudoku-input-container {
-
+.sudoku-board-row .sudoku-input-container:nth-child(2){
+  border-bottom:3px solid white;
+  
 }
+.sudoku-board-row .sudoku-input-container:nth-child(4){
+  border-bottom:3px solid white;
+  
+}
+.sudoku-board-row .sudoku-input-container:nth-child(6){
+  border-bottom:3px solid white;
+  
+}
+.sudoku-board-row .sudoku-input-container:nth-child(1){
+  border-top:3px solid white;
+  
+}
+.sudoku-board-row:nth-child(1) .sudoku-input-container{
+  border-left:3px solid white;
+  
+}
+.sudoku-board-row:nth-child(6) .sudoku-input-container{
+  border-right:3px solid white;
+  
+}
+.sudoku-input-container {}
 .sudoku-input {
   -webkit-appearance: none;
   -webkit-border-radius: 0;
@@ -35,4 +60,12 @@
   outline: none;
   background-color: #666;
   color: #f3f3f3;
+  cursor: pointer;
+}
+.page-five-btn-content {
+  text-align: center;
+  margin-top: 2em;
+}
+.sudoku-input.disabled {
+  cursor: not-allowed;
 }

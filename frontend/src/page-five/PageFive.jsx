@@ -14,6 +14,7 @@ export class PageFive extends Component {
     const { username } = queryString.parse(props.location.search);
     this.username = username;
     this.changeValue = this.changeValue.bind(this);
+    this.sendAnswer = this.sendAnswer.bind(this);
     this.state = {
       hasUsername: false,
       sudokuBoard: initialBoardState
@@ -49,7 +50,13 @@ export class PageFive extends Component {
   //       })
   //   }
   // }
-
+  sendAnswer(){
+    //     const url = `/api/${this.username}/answerlast`;
+    //     apiCallPost(url, this.state.sudokuBoard)
+    //       .then(res => {
+    //          console.log(res)
+    //       })
+  }
   changeValue(e, input){
     this.setState({
       ...this.state,
@@ -74,7 +81,22 @@ export class PageFive extends Component {
         this.state.level < 4 ? <Redirect to={`/?username=${this.username}`}/> : null 
       } */}
       <section className='page-five'>
-        <SudokuBoard changeValue={this.changeValue} sudokuBoard={this.state.sudokuBoard} />
+        <div
+          className='page-five-content'
+        >
+          <SudokuBoard changeValue={this.changeValue} sudokuBoard={this.state.sudokuBoard} />
+        </div>
+        <div
+          className='page-five-btn-content'
+        >
+          <button
+            className='answer-three-button'
+            onClick={this.sendAnswer}
+          > 
+              Prøv lykken
+          </button>
+        </div>
+
       </section>
       </CheckUsername>
     );
