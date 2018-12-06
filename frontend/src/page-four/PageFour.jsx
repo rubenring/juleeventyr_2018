@@ -37,18 +37,21 @@ export class PageFour extends Component {
   }
 
   sendSvar(){
-    // const svar = {
-    //   svar: this.state.value
-    // };
-    // if(svar.svar){
-    //   const url = `/api/${this.username}/answerfour`;
-    //   apiCallPost(url, svar)
-    //     .then(res => {
-    //       this.setState({
-    //         isCompleted: res.answer
-    //       })
-    //     })
-    // }
+    if(this.state.value){
+      const url = `/api/users/${this.username}/answers`;
+      const reqModel = {
+        room: 3,
+        answer: this.state.value
+      }
+      apiCallPost(url, reqModel)
+        .then(res => {
+          if(res && res.success){
+            this.setState({
+              isCompleted: true,
+            })
+          }
+        })
+    }
   }
 
   render(){

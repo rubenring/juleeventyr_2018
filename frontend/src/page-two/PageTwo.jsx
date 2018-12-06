@@ -87,7 +87,20 @@ export class PageTwo extends Component {
       })
   };
   svar() {
-      console.log('svar')
+    const url = `/api/users/${this.username}/answers`;
+    const reqModel = {
+      room: 1,
+      answer: this.state.lightbulbs
+    }
+    apiCallPost(url, reqModel)
+      .then(res => {
+        if(res && res.success){
+          this.setState({
+            isCompleted: true,
+          })
+        }
+      })
+    
   }
   render(){
 
