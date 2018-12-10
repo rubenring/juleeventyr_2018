@@ -1,0 +1,20 @@
+.completed-page {
+  text-align: center;
+
+}
+.gullet-img {
+  width: 100%;
+}
+.completed-tekst {
+  color: white;
+  font-size: 32px;
+}
+.completed-tekst-url {
+  color: black;
+  text-shadow: 2px 2px #c3c3c3;
+  font-size: 50px;
+  font-weight: bold;
+  position: absolute;
+  left: 45%;
+  top: 30%;
+}

@@ -108,10 +108,8 @@ export class PageTwo extends Component {
       <CheckUsername
         hasUsername={this.state.hasUsername}
       >
-        {/* {
-          this.state.level < 1 ? <Redirect to={`/?username=${this.username}`}/> : null 
-        } */}
-        <section className='page-two'>
+        {this.state.isCompleted ? <p className='completed'>Dere har løst oppgaven, gå videre til neste rom!</p>: null}
+        {!this.state.fetchingUser ?  <section className='page-two'>
           <Lightbulbs lightbulbs={this.state.lightbulbs} changeLight={this.changeLight} />
           <Hint lightbulbs={this.state.lightbulbs} />
           <button 
@@ -120,7 +118,7 @@ export class PageTwo extends Component {
           >
               <p className='button-text'>Send svar</p>
           </button>
-        </section>  
+        </section> : null }
       </CheckUsername>
     );
   }

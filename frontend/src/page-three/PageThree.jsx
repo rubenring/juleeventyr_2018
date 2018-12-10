@@ -85,8 +85,8 @@ export class PageThree extends Component {
       <CheckUsername
         hasUsername={this.state.hasUsername}
       >
-        <section className='page-Three'>
-          {this.state.isCompleted ? <p>HURRA</p>: null}
+        {this.state.isCompleted ? <p className='completed'>Dere har løst oppgaven, gå videre til neste rom!</p>: null}
+        {!this.state.fetchingUser ? <section className='page-Three'>
           <div className='cipher-konteiner'>
           <p className='input-word'><a>axpg-vbq</a></p>
           <div className='cipher-input-konteiner'>
@@ -104,7 +104,7 @@ export class PageThree extends Component {
             </div>
           </div>
 
-        </section>
+        </section> : null}
       </CheckUsername>
     );
   }

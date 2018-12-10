@@ -3,6 +3,7 @@ import './pageOne.css';
 import queryString from 'query-string';
 import { CheckUsername } from '../commen/CheckUsername';
 import { apiCallPost, apiCallGet } from '../utils';
+import { Redirect } from 'react-router-dom';
 
 export class PageOne extends Component {
   constructor(props){
@@ -39,6 +40,17 @@ export class PageOne extends Component {
                 ...this.state,
                 ...res,
               })
+              apiCallGet(`/api/users/${this.username}/levels/next`)
+                .then(res => {
+                  this.setState({
+                    ...this.state,
+                    allCompleted: res.completed,
+                    url: res.url
+                  }) 
+                })
+                .catch(x => {
+                  console.log(x);
+                })
             })
         }
       })
@@ -58,6 +70,7 @@ export class PageOne extends Component {
                 <input className='answer-input' value={this.state.room4.answer || ''} disabled type="text"/>
             </div>
         </section>
+        {this.state.allCompleted ? <Redirect to={`/completed-page?username=${this.username}`} url={this.state.url} /> : null }
       </CheckUsername>
 
     );

@@ -19,8 +19,6 @@ export class PageFive extends Component {
       hasUsername: false,
       sudokuBoard: initialBoardState
     }
-    // this.lagreSvar = this.lagreSvar.bind(this);
-
   }
   componentDidMount(){
     if(this.username){
@@ -40,21 +38,7 @@ export class PageFive extends Component {
       })
     }
   }
-  // lagreSvar(){
-  //   const svar = {
-  //     svar: this.state.value
-  //   };
-  //   if(svar.svar){
-  //     const url = `/api/${this.username}/answerlast`;
-  //     apiCallPost(url, svar)
-  //       .then(res => {
-  //         this.setState({
-  //           long: res.long,
-  //           lat: res.lat
-  //         })
-  //       })
-  //   }
-  // }
+
   sendAnswer(){
 
     const url = `/api/users/${this.username}/answers`;
@@ -92,10 +76,8 @@ export class PageFive extends Component {
       <CheckUsername
         hasUsername={this.state.hasUsername}
       >
-      {/* {
-        this.state.level < 4 ? <Redirect to={`/?username=${this.username}`}/> : null 
-      } */}
-      <section className='page-five'>
+      {this.state.isCompleted ? <p className='completed'>Dere har løst oppgaven, gå videre til neste rom!</p>: null}
+      {!this.state.fetchingUser ? <section className='page-five'>
         <div
           className='page-five-content'
         >
@@ -112,7 +94,7 @@ export class PageFive extends Component {
           </button>
         </div>
 
-      </section>
+      </section> : null }
       </CheckUsername>
     );
   }

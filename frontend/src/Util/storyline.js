@@ -5,4 +5,5 @@ export const storyline = {
   3: 'Dere er nå i vaktbua. Siden det er juleferie har vakten tatt ferie, men han har ikke skrudd av datamaskinen sin. På maskinen lyser det opp et uforstålig ord og et tomt felt det går an å skrive inn i og en knapp. Resten av skjermen er tom. Det går en ledning fra maskinen inn til tavlen som henger over døren i hvelvet...',
   4: 'Dere har åpnet luken til kjelleren. Her nede er alt nesten svart. det kan umulig være noen ledetråder i dette rommet? Dere ser det går en ledning fra taket og opp mot tavlen over døren på hvelvet...',
   5: 'En av dere har funnet døren til toalettet. Når toalettet blir utforsket kommer dere over et digitalt rutenett som henger på veggen. beleilig nok er det også her en ledning som går fra brettet og inn til tavlen som henger over døren i hvelvet.',
+  6: 'Dere har nå klart alle oppgavene og funnet gullet! Nå bærer det videre til neste steg for å finne den ultimate skatt, pils! gå videre med url"en som dere har fått på siden.'
 }
