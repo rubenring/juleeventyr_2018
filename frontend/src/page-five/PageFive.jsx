@@ -56,11 +56,21 @@ export class PageFive extends Component {
   //   }
   // }
   sendAnswer(){
-    //     const url = `/api/${this.username}/answerlast`;
-    //     apiCallPost(url, this.state.sudokuBoard)
-    //       .then(res => {
-    //          console.log(res)
-    //       })
+
+    const url = `/api/users/${this.username}/answers`;
+    const reqModel = {
+      room: 4,
+      answer: this.state.sudokuBoard
+    }
+    apiCallPost(url, reqModel)
+      .then(res => {
+        if(res && res.success){
+          this.setState({
+            isCompleted: true,
+          })
+        }
+      })
+    
   }
   changeValue(e, input){
     this.setState({
