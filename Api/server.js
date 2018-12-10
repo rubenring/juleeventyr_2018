@@ -15,6 +15,7 @@ const db = monk("mongodb://user:user98@ds123584.mlab.com:23584/juleeventyr_2018"
 const users = db.get('Users');
 
 const findUser = (username) => {
+  console.log(username);
   if(username && typeof username !== undefined && username !== "undefined"){
     return users.findOne({username}).then((doc) => {
       if(doc !== null){
@@ -126,7 +127,7 @@ app.post('/api/users/:username/', (req, res, next) => {
     });
 });
 
-app.get('/api/users/:username/progress', (req, res) => {
+app.get('/api/users/:username/progress', (req, res, next) => {
   const username = req.params.username;
   findUser(username)
     .then(user => {

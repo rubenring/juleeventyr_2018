@@ -57,3 +57,9 @@ html, body
   height: 100%;
   width: 100%;
 }
+.completed {
+	text-align: center;
+	font-size: 32px;
+	color: white;
+	font-weight: bold;
+}

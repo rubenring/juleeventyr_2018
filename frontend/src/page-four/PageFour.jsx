@@ -59,6 +59,7 @@ export class PageFour extends Component {
       <CheckUsername
         hasUsername={this.state.hasUsername}
       >
+      {this.state.isCompleted ? <p className='completed'>Dere har løst oppgaven, gå videre til neste rom!</p>: null}
       {!this.state.fetchingUser ? <section className='page-Four'>
         <div className='four-container-img'>
             <img src={totalBlack} alt='hidden' />
