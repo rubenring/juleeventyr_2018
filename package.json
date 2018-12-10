@@ -1,0 +1,21 @@
+{
+  "name": "sommereventyr_2018_reuben",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "cd Api && npm run start",
+    "build:frontend": "cd frontend && npm i && npm run build:prod",
+    "build": "npm run build:frontend && cd ../Api && npm i"
+  },
+  "engines": {
+    "node": "10.3.0"
+  },
+  "proxy": "http://localhost:5000/"
+}
