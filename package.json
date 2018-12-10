@@ -12,7 +12,8 @@
   "scripts": {
     "start": "cd Api && npm run start",
     "build:frontend": "cd frontend && npm i && npm run build:prod",
-    "build": "npm run build:frontend && cd ../Api && npm i"
+    "build": "npm run build:frontend && cd ../Api && npm i",
+    "heroku-postbuild": "npm run start"
   },
   "engines": {
     "node": "10.3.0"
