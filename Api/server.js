@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const monk = require('monk');
 const cors = require('cors');
+const path = require('path');
 const answers = require('./Util/Answers');
 const konstants = require('./Util/Konstants.js');
 const app = express();
@@ -13,6 +14,8 @@ app.use(cors());
 
 const db = monk("mongodb://user:user98@ds123584.mlab.com:23584/juleeventyr_2018");
 const users = db.get('Users');
+
+app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 const findUser = (username) => {
   console.log(username);

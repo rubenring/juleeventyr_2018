@@ -18,13 +18,14 @@
     "lodash": "^4.17.11",
     "mongoose": "^5.1.5",
     "monk": "^6.0.6",
+    "path": "^0.12.7",
     "query-string": "^6.1.0",
-    "sanitize-html": "^1.18.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "sanitize-html": "^1.18.2"
   },
   "devDependencies": {
     "concurrently": "^3.5.1",
