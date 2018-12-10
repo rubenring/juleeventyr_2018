@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 const monk = require('monk');
@@ -121,6 +122,7 @@ app.post('/api/users/:username/', (req, res, next) => {
         } 
       })
       .then(x => res.send({"hasUsername": true, "username": username}))
+      .catch(err => next(err));
     });
 });
 
@@ -129,8 +131,40 @@ app.get('/api/users/:username/progress', (req, res) => {
   findUser(username)
     .then(user => {
         res.send(!user ? CreateErrorMessage() : user.progress);
+    }).catch(err => {
+      next(err);
     });
 });
+
+app.get('/api/users/:username/levels/next', (req, res) => {
+  const username = req.params.username;
+  findUser(username)
+    .then(user => {
+      res.status(200).send(getNextLevel(user));
+    }).catch(err => {
+      res.status(500).send(CreateErrorMessage());
+    });
+});
+
+const getNextLevel = (user) => {
+  if (hasCompleted(user)) {
+    return {
+      completed: true,
+      url: 'www.vg.no',
+    };
+  } else {
+    return {
+      completed: false,
+      url: '',
+    };
+  };
+};
+
+const hasCompleted = (user) => {
+  return _.every(user.progress, (x) => {
+    return x.completed;
+  });
+}
 
 app.post('/api/users/:username/answers', (req, res, next) => {
   const { answer, room } = req.body;
