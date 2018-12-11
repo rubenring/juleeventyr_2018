@@ -154,7 +154,7 @@ const getNextLevel = (user) => {
   if (hasCompleted(user)) {
     return {
       completed: true,
-      url: 'www.vg.no',
+      url: 'www.vg.no?username='+user.username,
     };
   } else {
     return {
@@ -177,7 +177,6 @@ app.post('/api/users/:username/answers', (req, res, next) => {
     const updatedAnswer = answers.getAnswer(room);
     findUser(username)
       .then(user => {
-        console.log(user);
         if (!user){
           throw new Error('Invalid username');
         }
