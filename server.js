@@ -157,7 +157,7 @@ const progress = (next,username, currentlevel) => {
   request.post({json: true, headers, url: `${trackingUrl}api/progress`, json: form}, (error, response, body) => { 
 
     console.log(response.statusCode)
-
+    console.log(response)
     if (!error && response && response.statusCode == 200) { 
         next()
       }else{

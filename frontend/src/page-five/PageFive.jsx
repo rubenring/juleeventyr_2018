@@ -5,7 +5,7 @@ import SudokuBoard from './SudokuBoard';
 import initialBoardState from '../Util/initialBoardState';
 
 import queryString from 'query-string'
-import { apiCallPost, apiCallGet } from '../utils';
+import { apiCallPost } from '../utils';
 
 export class PageFive extends Component {
   constructor(props){
