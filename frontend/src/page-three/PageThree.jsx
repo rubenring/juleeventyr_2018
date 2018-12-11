@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { CheckUsername } from '../commen/CheckUsername';
 import './pageThree.css';
 import queryString from 'query-string'
-import { apiCallPost, apiCallGet } from '../utils';
+import { apiCallPost } from '../utils';
 
 export class PageThree extends Component {
   constructor(props){

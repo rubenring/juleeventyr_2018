@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import './pageFive.css';
 import { CheckUsername } from '../commen/CheckUsername';
 import SudokuBoard from './SudokuBoard';

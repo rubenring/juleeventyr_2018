@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import './pageTwo.css';
-import { apiCallGet, apiCallPost } from '../utils';
+import { apiCallPost } from '../utils';
 import queryString from 'query-string';
 import { CheckUsername } from '../commen/CheckUsername';
-import { NesteOppgaveLenke } from '../commen/NesteOppgaveLenke';
-import { Redirect } from 'react-router-dom';
-import lightbulbOn from '../content/lightbulb_on.png';
-import lightbulbOff from '../content/lightbulb_off.png';
 import Lightbulbs from './Lightbulbs';
 import Hint from './Hint';
 

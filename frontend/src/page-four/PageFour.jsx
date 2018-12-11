@@ -3,7 +3,7 @@ import totalBlack from '../content/totalblack.png';
 import './pageFour.css';
 import { CheckUsername } from '../commen/CheckUsername';
 import queryString from 'query-string'
-import { apiCallPost, apiCallGet } from '../utils';
+import { apiCallPost } from '../utils';
 
 export class PageFour extends Component {
   constructor(props){
