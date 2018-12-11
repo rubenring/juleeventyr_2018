@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "server": "nodemon server.js",
     "start": "node server.js",
     "heroku-postbuild": "cd frontend && npm i && npm run build:prod"
   },
@@ -25,6 +26,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
+    "request": "^2.88.0",
     "sanitize-html": "^1.18.2"
   },
   "devDependencies": {

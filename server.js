@@ -6,6 +6,7 @@ const cors = require('cors');
 const path = require('path');
 const answers = require('./Util/Answers');
 const konstants = require('./Util/Konstants.js');
+const request = require('request');
 const app = express();
 const port = process.env.PORT || 5000;
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -14,7 +15,18 @@ app.use(cors());
 
 const db = monk("mongodb://user:user98@ds123584.mlab.com:23584/juleeventyr_2018");
 const users = db.get('Users');
-
+const trackingUrl = "https://sommereventyrtracking.herokuapp.com/";
+const headers = {
+  //'Content-Type': 'application/json',
+  'x-api-key': '1238912akjsldasb123123'
+};
+const options = {
+  url: trackingUrl,
+  headers: {
+    'Content-Type': 'application/json',
+    'x-api-key': '1238912akjsldasb123123'
+  }
+};
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 const findUser = (username) => {
@@ -59,7 +71,7 @@ const UpdateProgress = (user, room, answer) => {
       break;
   }
 
-  return users.update({ username: user.username }, { $set: {progress} });
+  return users.update({ username: user.username }, { $set: {progress} })
 }
 
 const checkAnswer = (answer, room) => {
@@ -95,7 +107,69 @@ app.use('/api/users/:username/*', (req, res, next) => {
   }
 })
 
-app.post('/api/users/:username/', (req, res, next) => {
+app.post('/api/users/:username/test', (req, res, next) => {
+  const username = req.params.username;
+  const form = {
+    "username": username,
+    "appName": "Diehard",
+    "currentLevel": 1,
+    "totalLevelCount": 4,
+    "data": {
+      "test": "tester" 
+    }
+  }
+  request.post({json: true, headers, url: `${trackingUrl}api/progress`, body: form}, (error, response, body) => { 
+    console.log(error)
+    console.log(body)
+    console.log(response.statusCode)
+
+    if (!error && response && response.statusCode == 200) { 
+        res.send({"hasUsername": true, "username": username})
+      }else{
+        console.log(error);
+
+        next();
+      }
+  }); 
+});
+const insertUser = (username, res) => {
+  const form = {
+    "username": username,
+  }
+  request.post({json: true, headers, url: `${trackingUrl}api/create`, body: form}, (error, response, body) => { 
+      console.log('Create user', response.statusCode)
+      if (!error && response && response.statusCode == 200) { 
+        res.status(200).send({"hasUsername": true, "username": username})
+      }else{
+        console.info('create user error', error);
+        res.send({"hasUsername": false, "username": ''})
+      }
+  })
+}
+
+const progress = (next,username, currentlevel) => {
+  const form = {
+    "username": username,
+    "appName": "Diehard",
+    "currentLevel": currentlevel,
+    "totalLevelCount": 4,
+  }
+  request.post({json: true, headers, url: `${trackingUrl}api/progress`, json: form}, (error, response, body) => { 
+
+    console.log(response.statusCode)
+
+    if (!error && response && response.statusCode == 200) { 
+        next()
+      }else{
+        console.log(error);
+
+        next();
+      }
+  }); 
+}
+
+
+app.post('/api/users/:username', (req, res, next) => {
   const username = req.params.username;
   if(typeof username === undefined || !username){
     res.send({"hasUsername": false, username: ''});
@@ -125,7 +199,10 @@ app.post('/api/users/:username/', (req, res, next) => {
           }
         } 
       })
-      .then(x => res.send({"hasUsername": true, "username": username}))
+      .then(x => {
+        insertUser(username, res)
+      })
+      //.then(x => res.send({"hasUsername": true, "username": username}))
       .catch(err => next(err));
     });
 });
@@ -140,15 +217,11 @@ app.get('/api/users/:username/progress', (req, res, next) => {
     });
 });
 
-app.get('/api/users/:username/levels/next', (req, res) => {
-  const username = req.params.username;
-  findUser(username)
-    .then(user => {
-      res.status(200).send(getNextLevel(user));
-    }).catch(err => {
-      res.status(500).send(CreateErrorMessage());
-    });
-});
+const hasCompleted = (user) => {
+  return _.every(user.progress, (x) => {
+    return x.completed;
+  });
+}
 
 const getNextLevel = (user) => {
   if (hasCompleted(user)) {
@@ -164,11 +237,15 @@ const getNextLevel = (user) => {
   };
 };
 
-const hasCompleted = (user) => {
-  return _.every(user.progress, (x) => {
-    return x.completed;
-  });
-}
+app.get('/api/users/:username/levels/next', (req, res) => {
+  const username = req.params.username;
+  findUser(username)
+    .then(user => {
+      res.status(200).send(getNextLevel(user));
+    }).catch(err => {
+      res.status(500).send(CreateErrorMessage());
+    });
+});
 
 app.post('/api/users/:username/answers', (req, res, next) => {
   const { answer, room } = req.body;
@@ -177,26 +254,31 @@ app.post('/api/users/:username/answers', (req, res, next) => {
     const updatedAnswer = answers.getAnswer(room);
     findUser(username)
       .then(user => {
-        console.log(user);
         if (!user){
           throw new Error('Invalid username');
         }
 
         UpdateProgress(user, room, updatedAnswer)
-        .then(() => {
-          res.status(200).send({success: true})
-          return;
+        .then((x) => {
+          findUser(username)
+          .then(user => {
+            if(user){  
+              const count = _.filter(user.progress, (o) => { if (o.completed === true) return o }).length;
+              progress(next, username, count);
+            }
+            res.status(200).send({success: true})   
+          }).catch(err => {
+            next(err);
+          });
         })
         .catch(x => {
-          console.log(x);
+          throw new Error(x);
         });
     }).catch((x) => {
       res.status(500).send(CreateErrorMessage());
-      return;
     });
   } else{
     res.status(400).send({"message": "Answer not correct"});
-    return;
   }
 });
 
