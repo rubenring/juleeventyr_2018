@@ -298,4 +298,5 @@ app.listen(port, () => {
     console.log(x);
   })
   console.log(`Listening on port ${port}`)
+  console.log('updated with tracking')
 });
