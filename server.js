@@ -20,13 +20,7 @@ const headers = {
   //'Content-Type': 'application/json',
   'x-api-key': '1238912akjsldasb123123'
 };
-const options = {
-  url: trackingUrl,
-  headers: {
-    'Content-Type': 'application/json',
-    'x-api-key': '1238912akjsldasb123123'
-  }
-};
+
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 const findUser = (username) => {
@@ -87,7 +81,6 @@ const CreateErrorMessage = (message = 'Bad request') => {
 }
 app.use('/api/users/:username/*', (req, res, next) => {
   const username = req.params.username;
-  console.log(username);
   if(!username){
     res.status(400).send(CreateErrorMessage('No username in request')); 
   }else if(username){
@@ -119,9 +112,6 @@ app.post('/api/users/:username/test', (req, res, next) => {
     }
   }
   request.post({json: true, headers, url: `${trackingUrl}api/progress`, body: form}, (error, response, body) => { 
-    console.log(error)
-    console.log(body)
-    console.log(response.statusCode)
 
     if (!error && response && response.statusCode == 200) { 
         res.send({"hasUsername": true, "username": username})
@@ -137,7 +127,6 @@ const insertUser = (username, res) => {
     "username": username,
   }
   request.post({json: true, headers, url: `${trackingUrl}api/create`, body: form}, (error, response, body) => { 
-      console.log('Create user', response.statusCode)
       if (!error && response && response.statusCode == 200) { 
         res.status(200).send({"hasUsername": true, "username": username})
       }else{
@@ -163,9 +152,7 @@ const progress = (next,username, currentlevel) => {
     if (!error && response && response.statusCode == 200) { 
         next()
       }else{
-        console.log(response.statusCode)
         console.log(error);
-
         next();
       }
   }); 
@@ -205,7 +192,6 @@ app.post('/api/users/:username', (req, res, next) => {
       .then(x => {
         insertUser(username, res)
       })
-      //.then(x => res.send({"hasUsername": true, "username": username}))
       .catch(err => next(err));
     });
 });
@@ -226,17 +212,24 @@ const hasCompleted = (user) => {
   });
 }
 
-const getNextLevel = (user) => {
+const getNextLevel = (user, username, res) => {
   if (hasCompleted(user)) {
-    return {
-      completed: true,
-      url: 'www.vg.no',
-    };
+    const form = {
+      "username": username,
+      "appName": "Diehard"
+    }
+    request.post({json: true, headers, url: `${trackingUrl}api/nextApp`, json: form}, (error, response, body) => { 
+
+        if (!error && response && response.statusCode == 200) { 
+            res.status(200).send({completed: true, url: body.nextAppUrl})
+        }else{
+          console.log(error);
+          next();
+        }
+    }); 
+
   } else {
-    return {
-      completed: false,
-      url: '',
-    };
+    res.status(200).send({completed: false, url: ''})
   };
 };
 
@@ -244,7 +237,7 @@ app.get('/api/users/:username/levels/next', (req, res) => {
   const username = req.params.username;
   findUser(username)
     .then(user => {
-      res.status(200).send(getNextLevel(user));
+      getNextLevel(user, username, res);
     }).catch(err => {
       res.status(500).send(CreateErrorMessage());
     });
@@ -301,5 +294,4 @@ app.listen(port, () => {
     console.log(x);
   })
   console.log(`Listening on port ${port}`)
-  console.log('updated with tracking')
 });
