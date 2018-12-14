@@ -190,7 +190,8 @@ app.post('/api/users/:username', (req, res, next) => {
         } 
       })
       .then(x => {
-        insertUser(username, res)
+        //insertUser(username, res)
+        res.status(200).send({"hasUsername": true, "username": username})
       })
       .catch(err => next(err));
     });
